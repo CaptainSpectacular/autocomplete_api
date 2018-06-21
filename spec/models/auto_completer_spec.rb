@@ -59,5 +59,22 @@ describe AutoCompleter do
         expect(ac.traverse('farquad')).to be_falsey 
       end
     end
+
+    describe '#is_like?' do
+      before do
+        ac.insert 'binary'
+        ac.insert 'binding'
+        ac.insert 'binder'
+        ac.insert 'bind'
+        ac.insert 'broadway'
+      end
+
+      it 'returns a list of similar words' do
+        expect(ac.like?('bind')).to eq(%w[bind binder binding])
+        expect(ac.like?('bi')).to eq(%w[binary bind binder binding])
+        expect(ac.like?('br')).to eq(%w[broadway])
+        expect(ac.like?('broadway')).to eq(%w[broadway])
+      end
+    end
   end
 end
