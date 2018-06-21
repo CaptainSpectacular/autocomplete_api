@@ -42,5 +42,22 @@ describe AutoCompleter do
         expect(ac.root.kids['n'].kids['o'].kids.size).to eq(1)
       end
     end
+
+    describe '#traverse' do
+      it 'traverses the tree to a substring' do
+        ac.insert 'abs'
+        ac.insert 'abdomen'
+        ac.insert 'abomination'
+
+        expect(ac.traverse('ab')).to be_a(Node) 
+        expect(ac.traverse('ab').letter).to eq('b')
+        expect(ac.traverse('abdo').letter).to eq('o')
+        expect(ac.traverse('abomi').letter).to eq('i')
+        expect(ac.traverse('abomination').letter).to eq('n')
+        expect(ac.traverse('abominations')).to be_falsey 
+        expect(ac.traverse('barnacle')).to be_falsey 
+        expect(ac.traverse('farquad')).to be_falsey 
+      end
+    end
   end
 end

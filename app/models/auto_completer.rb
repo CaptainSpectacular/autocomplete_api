@@ -6,17 +6,25 @@ class AutoCompleter
   end
 
   def insert(word)
-    origin = @root
-    queue  = word.chars
+    queue = word.chars
+    ptr   = @root
 
     until queue.empty?
       char = queue.shift
-      case origin.children[char]
-      when nil then origin = origin.children[char] = Node.new(char)
-      else          origin = origin.children[char]
-      end
+      ptr = ptr.children[char] ||= Node.new(char)
     end
 
     word
+  end
+
+  def traverse(string)
+    ptr = @root
+
+    until string.empty?
+      char = string.shift
+      ptr.children[char] ? ptr = ptr.children[char] : return 
+    end
+
+    ptr 
   end
 end
